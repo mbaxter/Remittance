@@ -23,7 +23,7 @@ contract Remittance is Owned {
 	event LogFundsReclaimed(address _owner, uint _amount);
 
 	function Remittance(address _exchange, bytes32 _passwordHash, uint _deadlineInBlocks)
-	payable
+		payable
 	{
 		require(msg.value > 0);
 		require(_exchange != address(this));
