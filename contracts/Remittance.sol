@@ -14,7 +14,6 @@ contract Remittance is Owned {
 	int public failedPasswordAttempts;
 
 	modifier assertFromExchange() {
-
 		require(msg.sender == exchange);
 		_;
 	}
@@ -75,7 +74,7 @@ contract Remittance is Owned {
 		require(state == State.PENDING);
 		require(isDeadlinePassed());
 		// Update state
-	    state = State.RECLAIMED;
+		state = State.RECLAIMED;
 		// Execute transfer
 		owner.transfer(amount);
 		LogFundsReclaimed(owner, amount);
