@@ -6,9 +6,9 @@ contract Remittance is Owned {
 
 	enum State { PENDING, COMPLETE, RECLAIMED }
 
-	State state;
+	State public state;
 	uint public amount;
-	address exchange;
+	address public exchange;
 	bytes32 passwordHash;
 	uint public deadlineBlockNumber;
 	int public failedPasswordAttempts;
@@ -26,8 +26,12 @@ contract Remittance is Owned {
 		payable
 	{
 		require(msg.value > 0);
+		// Check address
 		require(_exchange != address(this));
 		require(_exchange != owner);
+		require(_exchange != 0x0);
+		// Check deadline
+		require(_deadlineInBlocks < 500000);
 
 		state = State.PENDING;
 		amount = msg.value;
@@ -36,6 +40,9 @@ contract Remittance is Owned {
 		deadlineBlockNumber = block.number + _deadlineInBlocks;
 	}
 
+	/*
+    The exchange can withdraw funds if the correct password is supplied and the deadline hasn't passed.
+	*/
 	function withdrawFunds(string password)
 		public
 		assertFromExchange
@@ -56,6 +63,9 @@ contract Remittance is Owned {
 		return true;
 	}
 
+	/*
+    The original funder can reclaim funds if the deadline has passed.
+	*/
 	function reclaimFunds()
 		public
 		assertFromOwner
