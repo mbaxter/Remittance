@@ -41,7 +41,7 @@ contract Remittance is Owned {
 	}
 
 	/*
-    The exchange can withdraw funds if the correct password is supplied and the deadline hasn't passed.
+	The exchange can withdraw funds if the correct password is supplied and the deadline hasn't passed.
 	*/
 	function withdrawFunds(string password)
 		public
@@ -64,7 +64,7 @@ contract Remittance is Owned {
 	}
 
 	/*
-    The original funder can reclaim funds if the deadline has passed.
+	The original funder can reclaim funds if the deadline has passed.
 	*/
 	function reclaimFunds()
 		public
